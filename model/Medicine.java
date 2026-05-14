@@ -1,20 +1,20 @@
 package model;
 public class Medicine{
     private String nameOfMedicine; // name of the medicine (should be full name)
-    private final int idOfMedicine; //id will be constant
+    private final int IdOfMedicine; //id will be constant
     private int stockOfMedicine; //stock should change after transaction or after stock update
     private int priceOfIndividualMedicine; // price (idk what you want me to say)
 
     public Medicine(int id, String name, int stock, int price){
-        this.idOfMedicine = id;
+        this.IdOfMedicine = id;
         this.nameOfMedicine = name;
         this.stockOfMedicine = stock;
         this.priceOfIndividualMedicine = price;
     } //medicine constructor
 
     //Getters
-    public int getidOfMedicine(){
-        return idOfMedicine;
+    public int getIdOfMedicine(){
+        return IdOfMedicine;
     } //Getters for medicine id
     public String getNameOfMedicine(){
         return nameOfMedicine;
@@ -54,7 +54,7 @@ public class Medicine{
     }
     //Information display
     public void displayMedicineInformation(){
-        System.out.println("ID: " + idOfMedicine);
+        System.out.println("ID: " + IdOfMedicine);
         System.out.println("Name: " + nameOfMedicine);
         System.out.println("Stock: " + stockOfMedicine);
         System.out.println("Price: " + priceOfIndividualMedicine);

@@ -13,7 +13,7 @@ public class Cart{
     public void addItemToCart(IndividualItemInCart item){
         boolean merged = false;
         for(IndividualItemInCart existingItem : items){
-            if(existingItem.getMedicine().getidOfMedicine() == item.getMedicine().getidOfMedicine()){
+            if(existingItem.getMedicine().getIdOfMedicine() == item.getMedicine().getIdOfMedicine()){
                 int newQuantity = existingItem.getQuantityOfMedicineBought() + item.getQuantityOfMedicineBought();
                 if(!existingItem.getMedicine().isMedicineAvailable(newQuantity)){
                     throw new IllegalArgumentException("Not enough stock for " + existingItem.getMedicine().getNameOfMedicine());

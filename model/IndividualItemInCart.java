@@ -37,7 +37,7 @@ public class IndividualItemInCart{
     public void displayItemInCart(){
         System.out.println("Medicine: " + medicine.getNameOfMedicine());
         System.out.println("Quantity: " + quantityOfMedicineBought);
-        System.out.println("Total Price: " + getTotalPriceOfCurrentMedicine());
+        System.out.println("Subtotal: " + getTotalPriceOfCurrentMedicine());
     }
 
 

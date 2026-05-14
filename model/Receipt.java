@@ -8,12 +8,16 @@ public class Receipt{
     private List<IndividualItemInCart> listOfItems;
     private int totalPrice;
     private String paymentMethod;
+    private int paidAmount;
+    private int change;
 
-    public Receipt(String transactionId, List<IndividualItemInCart> listOfItems, int totalPrice, String paymentMethod) {
+    public Receipt(String transactionId, List<IndividualItemInCart> listOfItems, int totalPrice, String paymentMethod, int paidAmount, int change) {
         this.transactionId = transactionId;
         this.listOfItems = listOfItems;
         this.totalPrice = totalPrice;
         this.paymentMethod = paymentMethod;
+        this.paidAmount = paidAmount;
+         this.change = change;
     }
 
     public void printReceipt(){
@@ -27,6 +31,8 @@ public class Receipt{
         }
         System.out.println("--------------------------------------------------------------");
         System.out.println("Total Price: " + totalPrice);
+        System.out.println("Paid Amount: " + paidAmount);
+        System.out.println("Change: " + change);
     }
 
 

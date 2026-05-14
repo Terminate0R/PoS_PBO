@@ -9,6 +9,7 @@ public class Transaction {
     private String paymentMethod;
     private boolean isProcessed = false;
     private List<IndividualItemInCart> itemSaves;
+    private int paidAmount;
 
     public Transaction(Cart cart, String paymentMethod) {
         this.cart = cart;
@@ -44,11 +45,23 @@ public class Transaction {
         }
         cart.clearCart();
     }
-
+    public int getChange(int paidAmount){
+        if(!isProcessed) throw new IllegalStateException("Transaction not processed yet.");
+        if(paidAmount < totalPrice) throw new IllegalArgumentException("Paid amount is less than total price.");
+        this.paidAmount = paidAmount;
+        return paidAmount - totalPrice;
+    }
 
     public List<IndividualItemInCart> getItemSaves() {
         if(!isProcessed) throw new IllegalStateException("Transaction not processed yet.");
         return itemSaves;
+    }
+
+    public void setAmountPaid(int paidAmount){
+        if(paidAmount < totalPrice) throw new IllegalArgumentException("Paid amount is less than total price.");
+        if(this.paidAmount != 0) throw new IllegalStateException("Amount already set.");
+        if(paidAmount < 0) throw new IllegalArgumentException("Paid amount cannot be negative.");
+        this.paidAmount = paidAmount;
     }
 
     public String getPaymentMethod() { 
@@ -59,5 +72,13 @@ public class Transaction {
     }
     public String getTransactionId() {
          return transactionId;
+    }
+    public int getPaidAmount() {
+        if(!isProcessed) throw new IllegalStateException("Transaction not processed yet.");
+        return paidAmount;
+    }
+    public int getChange() {
+        if(!isProcessed) throw new IllegalStateException("Transaction not processed yet.");
+        return getChange(paidAmount);
     }
 }
