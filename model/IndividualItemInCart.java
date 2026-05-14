@@ -1,3 +1,4 @@
+package model;
 public class IndividualItemInCart{
     private Medicine medicine;
     private int quantityOfMedicineBought;

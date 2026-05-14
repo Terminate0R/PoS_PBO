@@ -1,3 +1,4 @@
+package model;
 public class Medicine{
     private String nameOfMedicine; // name of the medicine (should be full name)
     private final int idOfMedicine; //id will be constant
