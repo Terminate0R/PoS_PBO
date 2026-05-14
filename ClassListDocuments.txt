@@ -1,0 +1,49 @@
+Class that might be used:
+
+1. Medicine -->  Attribute: 
+A. name
+B. id
+c. price
+d. expiry date (fitur lanjutan)
+e. stock?
+
+process:
+
+display info --> (id, name, price, stock)
+addstock
+reducestock
+isstockavailable
+
+
+2. Individual_Item_Selected_In_Cart --> Attribute:
+A. medicine
+b. quantity
+
+process :
+subtotal
+
+3. FUll_Cart --> Attributes:
+A. ItemInCart  (List)
+
+process:
+total
+store_selected_medicine
+add item 
+remove item
+
+
+4. Creating_Transaction --> Attributes:
+A. quantity_of_payment_given_by_customer
+B. total
+C. Cart
+
+Process:
+finalize_current_transaction
+calculate_change
+
+
+5. Print_Receipt -- Attribute:
+Bring attribute from cart and transaction 
+
+process:
+print receipt
