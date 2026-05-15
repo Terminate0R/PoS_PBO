@@ -3,9 +3,12 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DataBaseHelper{
-    private static final String URL = "jdbc:mysql://localhost:3306/pos_apotek";
+    private static final String URL = "jdbc:mysql://localhost:3306/pos_pbo";
     private static final String USER = "root";
-    private static final String PASSWORD = "password";
+    private static String PASSWORD = "";
+    public static void setPassword(String Password){
+        PASSWORD = Password;
+    }
 
 
     public static Connection getConnection() throws SQLException {
@@ -13,8 +16,8 @@ public class DataBaseHelper{
     }
 
     public static ArrayList<Medicine> loadMedicines(){
-        ArrayList<medicine> medicines = new ArrayList<>();
-        String query = "SELECT * FROM medicines";
+        ArrayList<Medicine> medicines = new ArrayList<>();
+        String query = "SELECT * FROM medicine";
         try (Connection conn = getConnection();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query)){
@@ -34,9 +37,9 @@ public class DataBaseHelper{
 
 
     public static void saveTransaction(Transaction transaction){
-        String insertTx = "INSERT INTO transactions (transaction_id, payment_method, total_amount, transaction_date, customer_id) VALUES (?, ?, ?, ?, ?)";
+        String insertTx = "INSERT INTO transaction (transaction_id, payment_method, total_price, amount_paid, change_amount) VALUES (?, ?, ?, ?, ?)";
         String insertItem = "INSERT INTO transaction_items (transaction_id, medicine_id, quantity, subtotal) VALUES (?, ?, ?, ?)";
-        try (Connection conn = getConnection(){
+        try (Connection conn = getConnection()){
             conn.setAutoCommit(false);
             try (PreparedStatement txStmt = conn.prepareStatement(insertTx)){
                 txStmt.setString(1, transaction.getTransactionId());
@@ -64,9 +67,45 @@ public class DataBaseHelper{
    
     }
     public static void saveMedicine(Medicine medicine){
-        String query = "INSERT INTO medicines (id, name, stock, price) VALUES (?, ?, ?, ?)";
-        
+        String query = "INSERT INTO medicine (id, name, stock, price) VALUES (?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query)){
+                stmt.setInt(1, medicine.getIdOfMedicine());
+                stmt.setString(2, medicine.getNameOfMedicine());
+                stmt.setInt(3, medicine.getStockOfMedicine());
+                stmt.setInt(4, medicine.getPriceOfIndividualMedicine());
+                stmt.executeUpdate();
+                System.out.println("Medicine saved successfully.");
+            } catch (SQLException e){
+                System.out.println("Error saving medicine: " + e.getMessage());
+            }
     }
 
-
+    public static void updatedMedicineStock(int id, int newStock){
+        String query = "UPDATE medicine SET stock = ? WHERE id = ?";
+        try (Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query)){
+                stmt.setInt(1, newStock);
+                stmt.setInt(2, id);
+                int rowsAffected = stmt.executeUpdate();
+                if (rowsAffected > 0){
+                    System.out.println("Medicine stock updated successfully.");
+                } else {
+                    System.out.println("Medicine with ID: " + id + " not found.");
+                }
+            } catch (SQLException e){
+                System.out.println("Error updating medicine stock: " + e.getMessage());
+            }
+    }
+    
+    public static void deleteMedicine(int id){
+        String query = "DELETE FROM medicine where id = ?";
+        try (Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query)){
+                stmt.setInt(1,id);
+                stmt.executeUpdate();
+            } catch (SQLException e){
+                System.out.println("Error deleting medicine: " + e.getMessage());
+            }
+    }
 }

@@ -1,18 +1,26 @@
 import model.*;
 import service.InventoryManager;
 import java.util.Scanner;
+import java.sql.SQLException;
 import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in);
+    System.out.print("Masukkan password MySQL: ");
+        String dbPassword = scanner.nextLine();
+        DataBaseHelper.setPassword(dbPassword);
+        try {
+            DataBaseHelper.getConnection();
+            System.out.println("Koneksi database berhasil!");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage()); // ← show actual error
+            return;
+        }
+        
         boolean running = true;
 
 
-        ArrayList<Medicine> medicines = new ArrayList<>();
-        medicines.add(new Medicine(1, "Paracetamol", 100, 5000));
-        medicines.add(new Medicine(2, "Amoxicillin", 50, 12000));
-        medicines.add(new Medicine(3, "Ibuprofen", 80, 8000));
-
+        ArrayList<Medicine> medicines = DataBaseHelper.loadMedicines();
 
         InventoryManager inventoryManager = new InventoryManager(medicines);
 
@@ -75,6 +83,7 @@ public class Main {
                     System.out.print("Masukkan harga obat: ");
                     int price = scanner.nextInt();
                     inventoryManager.addMedicine(id, name, stock, price);
+                    DataBaseHelper.saveMedicine(new Medicine(id, name, stock, price));
                     break;
                 case 3:
                     System.out.print("Masukkan ID obat yang ingin diupdate: ");
@@ -113,6 +122,7 @@ public class Main {
                     System.out.print("Masukkan ID obat yang ingin dihapus: ");
                     int removeId = scanner.nextInt();
                     inventoryManager.removeMedicine(removeId);
+                    DataBaseHelper.deleteMedicine(removeId);
                     break;
                 case 0:
                     managing = false;
@@ -180,6 +190,13 @@ public class Main {
         Transaction transaction = new Transaction(cart, "Cash");
         transaction.setAmountPaid(amountPaid);
         transaction.processTransaction();
+        for(IndividualItemInCart item : transaction.getItemSaves()){
+              DataBaseHelper.updatedMedicineStock(
+            item.getMedicine().getIdOfMedicine(),
+            item.getMedicine().getStockOfMedicine()
+            );
+        }
+        DataBaseHelper.saveTransaction(transaction);
 
         Receipt receipt = new Receipt(
                 transaction.getTransactionId(),
