@@ -12,7 +12,7 @@ public class Sidebar {
         sidebar.setPrefWidth(210);
         sidebar.setStyle("-fx-background-color: " + StyleUtil.BG_SIDEBAR + ";");
 
-        // ── Logo ──────────────────────────────────────────────────────────────
+        
         VBox logoBox = new VBox(4);
         logoBox.setPadding(new Insets(28, 20, 24, 20));
         logoBox.setStyle("-fx-border-color: rgba(255,255,255,0.08); -fx-border-width: 0 0 1 0;");
@@ -23,7 +23,7 @@ public class Sidebar {
         sub.setStyle("-fx-text-fill: " + StyleUtil.TEXT_SIDEBAR + "; -fx-font-size: 11px;");
         logoBox.getChildren().addAll(cross, sub);
 
-        // ── Nav ───────────────────────────────────────────────────────────────
+   
         VBox nav = new VBox(4);
         nav.setPadding(new Insets(16, 10, 16, 10));
 
@@ -41,7 +41,7 @@ public class Sidebar {
 
         nav.getChildren().addAll(navLabel, btnDash, btnTx, btnInv);
 
-        // ── Footer ────────────────────────────────────────────────────────────
+       
         VBox footer = new VBox(4);
         footer.setPadding(new Insets(16, 20, 20, 20));
         footer.setStyle("-fx-border-color: rgba(255,255,255,0.08); -fx-border-width: 1 0 0 0;");

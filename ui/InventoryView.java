@@ -35,7 +35,7 @@ public class InventoryView {
         VBox center = new VBox(22);
         center.setPadding(new Insets(36, 40, 36, 40));
 
-        // ── Header ────────────────────────────────────────────────────────────
+    
         HBox header = new HBox(12);
         header.setAlignment(Pos.CENTER_LEFT);
 
@@ -55,7 +55,7 @@ public class InventoryView {
 
         header.getChildren().addAll(titleBox, sp, addBtn);
 
-        // ── Search bar ────────────────────────────────────────────────────────
+       
         HBox searchRow = new HBox(12);
         searchRow.setAlignment(Pos.CENTER_LEFT);
         TextField search = new TextField();
@@ -67,7 +67,7 @@ public class InventoryView {
         countLbl.setStyle(StyleUtil.label(StyleUtil.FONT_SIZE_SM, StyleUtil.TEXT_MUTED));
         searchRow.getChildren().addAll(search, countLbl);
 
-        // ── Table ─────────────────────────────────────────────────────────────
+      
         table = buildTable();
         VBox.setVgrow(table, Priority.ALWAYS);
 
@@ -102,7 +102,7 @@ public class InventoryView {
         TableColumn<MedicineRow, String>  colAct   = new TableColumn<>("Aksi");
         colAct.setMinWidth(160);
 
-        // Custom stock cell with color badge
+        
         colStock.setCellFactory(c -> new TableCell<MedicineRow, Integer>() {
             @Override protected void updateItem(Integer v, boolean empty) {
                 super.updateItem(v, empty);
@@ -116,7 +116,7 @@ public class InventoryView {
             }
         });
 
-        // Action column
+       
         colAct.setCellFactory(c -> new TableCell<MedicineRow, String>() {
             final Button edit = new Button("Edit");
             final Button del  = new Button("Hapus");
@@ -153,7 +153,7 @@ public class InventoryView {
             .collect(java.util.stream.Collectors.toList()));
     }
 
-    // ─── Add Dialog ───────────────────────────────────────────────────────────
+  
     private void showAddDialog() {
         Stage d = dialogStage("Tambah Obat Baru");
 
@@ -205,7 +205,7 @@ public class InventoryView {
         d.showAndWait();
     }
 
-    // ─── Edit Dialog ──────────────────────────────────────────────────────────
+  
     private void showEditDialog(Medicine m) {
         Stage d = dialogStage("Edit Obat");
 
@@ -279,7 +279,7 @@ public class InventoryView {
         });
     }
 
-    // ─── Helpers ──────────────────────────────────────────────────────────────
+  
     private Stage dialogStage(String title) {
         Stage d = new Stage();
         d.initModality(Modality.APPLICATION_MODAL);
@@ -318,7 +318,7 @@ public class InventoryView {
         a.showAndWait();
     }
 
-    // ─── TableRow ViewModel ───────────────────────────────────────────────────
+    
     public static class MedicineRow {
         private final Medicine medicine;
         private final IntegerProperty id;

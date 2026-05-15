@@ -32,7 +32,7 @@ public class DashboardView {
         VBox content = new VBox(28);
         content.setPadding(new Insets(36, 40, 36, 40));
 
-        // ── Page header ───────────────────────────────────────────────────────
+        
         HBox header = new HBox();
         header.setAlignment(Pos.CENTER_LEFT);
 
@@ -53,10 +53,10 @@ public class DashboardView {
 
         header.getChildren().addAll(titleBox, spacer, newTxBtn);
 
-        // ── Stat cards ────────────────────────────────────────────────────────
+        
         HBox statsRow = buildStatsRow();
 
-        // ── Lower section ─────────────────────────────────────────────────────
+      
         HBox lower = buildLowerSection();
         VBox.setVgrow(lower, Priority.ALWAYS);
 
@@ -98,7 +98,7 @@ public class DashboardView {
                       "-fx-border-radius: 10;" +
                       "-fx-border-width: 1;");
 
-        // Accent dot
+     
         Rectangle dot = new Rectangle(6, 6);
         dot.setArcWidth(6);
         dot.setArcHeight(6);
@@ -122,7 +122,7 @@ public class DashboardView {
     private HBox buildLowerSection() {
         HBox row = new HBox(20);
 
-        // ── Quick actions ─────────────────────────────────────────────────────
+     
         VBox actCard = new VBox(14);
         actCard.setPrefWidth(260);
         actCard.setPadding(new Insets(22, 24, 22, 24));
@@ -141,7 +141,7 @@ public class DashboardView {
         btnTx.setOnAction(e  -> new TransactionView(stage).show());
         btnInv.setOnAction(e -> new InventoryView(stage).show());
 
-        // Low stock warning box
+
         long lowCount = ApotekApp.medicines.stream().filter(m -> m.getStockOfMedicine() < 20).count();
         if (lowCount > 0) {
             VBox warnBox = new VBox(4);
@@ -160,7 +160,7 @@ public class DashboardView {
             actCard.getChildren().addAll(actTitle, btnTx, btnInv);
         }
 
-        // ── Stock table ───────────────────────────────────────────────────────
+        
         VBox tableCard = new VBox(16);
         tableCard.setPadding(new Insets(22, 24, 22, 24));
         tableCard.setStyle(StyleUtil.card());
@@ -176,7 +176,7 @@ public class DashboardView {
         totalLbl.setStyle(StyleUtil.label(StyleUtil.FONT_SIZE_SM, StyleUtil.TEXT_MUTED));
         tableHeader.getChildren().addAll(tableTitle, sp, totalLbl);
 
-        // Column headers
+
         HBox thead = tableRow("ID", "Nama Obat", "Stok", "Harga Satuan", true);
 
         VBox tbody = new VBox(0);
@@ -188,7 +188,7 @@ public class DashboardView {
                 StyleUtil.formatRupiah(m.getPriceOfIndividualMedicine()),
                 false
             );
-            // Color stock cell
+    
             String stockClr = m.getStockOfMedicine() < 20 ? StyleUtil.ACCENT_AMBER : StyleUtil.ACCENT_TEAL;
             ((Label) tr.getChildren().get(2)).setStyle("-fx-text-fill: " + stockClr + "; -fx-font-size: 13px; -fx-font-weight: bold;");
             tbody.getChildren().add(tr);

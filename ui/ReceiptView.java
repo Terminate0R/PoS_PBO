@@ -41,11 +41,11 @@ public class ReceiptView {
         VBox box = new VBox(20);
         box.setPadding(new Insets(36, 36, 36, 36));
 
-        // ── Success header ────────────────────────────────────────────────────
+        
         VBox header = new VBox(8);
         header.setAlignment(Pos.CENTER);
 
-        // Green check circle
+       
         Label check = new Label("✓");
         check.setStyle("-fx-text-fill: " + StyleUtil.ACCENT_TEAL + ";" +
                        "-fx-font-size: 36px; -fx-font-weight: bold;" +
@@ -62,12 +62,12 @@ public class ReceiptView {
 
         header.getChildren().addAll(check, successLbl, storeLbl);
 
-        // ── Receipt card ──────────────────────────────────────────────────────
+ 
         VBox card = new VBox(14);
         card.setPadding(new Insets(22, 22, 22, 22));
         card.setStyle(StyleUtil.card());
 
-        // Transaction ID
+     
         Label txLabel = new Label("ID Transaksi");
         txLabel.setStyle(StyleUtil.label(StyleUtil.FONT_SIZE_XS, StyleUtil.TEXT_MUTED));
         String txId = receipt.getTransactionId();
@@ -77,7 +77,7 @@ public class ReceiptView {
 
         Separator sep1 = sep();
 
-        // Items list
+  
         Label itemHeader = new Label("ITEM PEMBELIAN");
         itemHeader.setStyle("-fx-text-fill: " + StyleUtil.TEXT_MUTED + ";" +
                             "-fx-font-size: 10px; -fx-font-weight: bold;");
@@ -106,7 +106,7 @@ public class ReceiptView {
 
         Separator sep2 = sep();
 
-        // Payment summary
+     
         VBox summary = new VBox(8);
         summary.getChildren().addAll(
             payRow("Total Harga",    StyleUtil.formatRupiah(receipt.getTotalPrice()),    StyleUtil.TEXT_DARK, false),
@@ -117,7 +117,7 @@ public class ReceiptView {
 
         card.getChildren().addAll(txLabel, txValue, sep1, itemHeader, items, sep2, summary);
 
-        // ── Action buttons ────────────────────────────────────────────────────
+       
         HBox actions = new HBox(12);
 
         Button btnDash = new Button("Kembali ke Dashboard");
@@ -164,7 +164,7 @@ public class ReceiptView {
         return s;
     }
 
-    // Shorthand
+  
     private static final String FONT_SIZE_XS = StyleUtil.FONT_SIZE_XS;
     private static final String FONT_SIZE_MD = StyleUtil.FONT_SIZE_MD;
     private static final String FONT_SIZE_SM = StyleUtil.FONT_SIZE_SM;

@@ -32,12 +32,12 @@ public class TransactionView {
         stage.setMaximized(true);
     }
 
-    // ─── Center: Medicine grid ─────────────────────────────────────────────────
+    
     private VBox buildCenter() {
         VBox center = new VBox(18);
         center.setPadding(new Insets(32, 24, 32, 32));
 
-        // Header
+       
         VBox titleBox = new VBox(4);
         Label title = new Label("Pilih Obat");
         title.setStyle("-fx-text-fill: " + StyleUtil.TEXT_DARK + ";" +
@@ -46,13 +46,13 @@ public class TransactionView {
         sub.setStyle(StyleUtil.label(StyleUtil.FONT_SIZE_SM, StyleUtil.TEXT_MUTED));
         titleBox.getChildren().addAll(title, sub);
 
-        // Search
+        
         TextField search = new TextField();
         search.setPromptText("Cari nama obat...");
         search.setStyle(StyleUtil.inputField() + "-fx-font-size: 13px; -fx-padding: 10 14;");
         search.setMaxWidth(Double.MAX_VALUE);
 
-        // Grid
+        
         ScrollPane grid = buildMedicineGrid(search);
         VBox.setVgrow(grid, Priority.ALWAYS);
 
@@ -94,7 +94,7 @@ public class TransactionView {
         card.setPrefWidth(195);
         card.setStyle(StyleUtil.card() + (inStock ? "-fx-cursor: hand;" : "-fx-opacity: 0.6;"));
 
-        // Top: ID badge + stock badge row
+        
         HBox topRow = new HBox(6);
         topRow.setAlignment(Pos.CENTER_LEFT);
         Label idBadge = new Label("ID " + m.getIdOfMedicine());
@@ -110,22 +110,22 @@ public class TransactionView {
         stockBadge.setStyle(StyleUtil.badge(stockBg, stockClr));
         topRow.getChildren().addAll(idBadge, topSp, stockBadge);
 
-        // Medicine name
+        
         Label nameLbl = new Label(m.getNameOfMedicine());
         nameLbl.setStyle("-fx-text-fill: " + StyleUtil.TEXT_DARK + ";" +
                          "-fx-font-size: 14px; -fx-font-weight: bold;");
         nameLbl.setWrapText(true);
 
-        // Stock count
+        
         Label stockLbl = new Label("Stok: " + m.getStockOfMedicine() + " unit");
         stockLbl.setStyle("-fx-text-fill: " + stockClr + "; -fx-font-size: 12px;");
 
-        // Price
+        
         Label priceLbl = new Label(StyleUtil.formatRupiah(m.getPriceOfIndividualMedicine()));
         priceLbl.setStyle("-fx-text-fill: " + StyleUtil.ACCENT_TEAL + ";" +
                           "-fx-font-size: 15px; -fx-font-weight: bold;");
 
-        // Add button
+        
         Button addBtn = new Button(inStock ? "+ Tambah" : "Stok Habis");
         addBtn.setStyle(inStock ? StyleUtil.btnPrimary() + "-fx-padding: 7 14; -fx-font-size: 12px;"
                                 : StyleUtil.btnSecondary() + "-fx-padding: 7 14; -fx-font-size: 12px;");
@@ -205,7 +205,7 @@ public class TransactionView {
         dialog.showAndWait();
     }
 
-    // ─── Cart panel ────────────────────────────────────────────────────────────
+    
     private VBox buildCartPanel() {
         VBox panel = new VBox(16);
         panel.setPrefWidth(290);
@@ -214,7 +214,7 @@ public class TransactionView {
                        "-fx-border-color: " + StyleUtil.BORDER + ";" +
                        "-fx-border-width: 0 0 0 1;");
 
-        // Header
+    
         HBox headerRow = new HBox(8);
         headerRow.setAlignment(Pos.CENTER_LEFT);
         Label cartTitle = new Label("Keranjang");
@@ -224,7 +224,7 @@ public class TransactionView {
         itemCountLabel.setStyle(StyleUtil.label(StyleUtil.FONT_SIZE_SM, StyleUtil.TEXT_MUTED));
         headerRow.getChildren().addAll(cartTitle, itemCountLabel);
 
-        // Cart items
+        
         cartContent = new VBox(8);
         Label emptyLbl = new Label("Belum ada item\nTambahkan obat dari daftar");
         emptyLbl.setStyle(StyleUtil.label(StyleUtil.FONT_SIZE_SM, StyleUtil.TEXT_MUTED) +
@@ -238,7 +238,7 @@ public class TransactionView {
         sp.setFitToWidth(true);
         VBox.setVgrow(sp, Priority.ALWAYS);
 
-        // Footer total + actions
+        
         VBox footer = new VBox(12);
         footer.setStyle("-fx-border-color: " + StyleUtil.BORDER + ";" +
                         "-fx-border-width: 1 0 0 0; -fx-padding: 16 0 0 0;");
@@ -325,7 +325,7 @@ public class TransactionView {
         return row;
     }
 
-    // ─── Checkout dialog ───────────────────────────────────────────────────────
+    
     private void showCheckoutDialog() {
         if (cart.getItems().isEmpty()) {
             alert("Keranjang Kosong", "Tambahkan obat terlebih dahulu.");
@@ -346,7 +346,7 @@ public class TransactionView {
         title.setStyle("-fx-text-fill: " + StyleUtil.TEXT_DARK + ";" +
                        "-fx-font-size: 18px; -fx-font-weight: bold;");
 
-        // Order summary
+        
         VBox summary = new VBox(8);
         summary.setPadding(new Insets(14));
         summary.setStyle("-fx-background-color: " + StyleUtil.BG_PAGE + ";" +
@@ -381,7 +381,7 @@ public class TransactionView {
         totalRow.getChildren().addAll(totalLbl, sp3, totalVal);
         summary.getChildren().add(totalRow);
 
-        // Payment input
+       
         Label paidLbl = new Label("Jumlah Dibayar (Rp)");
         paidLbl.setStyle("-fx-text-fill: " + StyleUtil.TEXT_DARK + "; -fx-font-size: 12px; -fx-font-weight: bold;");
         TextField paidField = new TextField();
@@ -427,7 +427,7 @@ public class TransactionView {
                 Transaction tx = new Transaction(cart, "Cash");
                 tx.setAmountPaid(paid);
                 tx.processTransaction();
-                // Persist to DB
+                
                 for (IndividualItemInCart item : tx.getItemSaves()) {
                     service.DataBaseHelper.updatedMedicineStock(
                         item.getMedicine().getIdOfMedicine(),
