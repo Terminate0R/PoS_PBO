@@ -1,15 +1,21 @@
 import model.*;
 import java.util.Scanner;
-
-import model.Medicine;
+import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
+
+        ArrayList<Medicine> medicines = new ArrayList<>();
+        medicines.add(new Medicine(1, "Paracetamol", 100, 5000));
+        medicines.add(new Medicine(2, "Amoxicillin", 50, 12000));
+        medicines.add(new Medicine(3, "Ibuprofen", 80, 8000));
+
+
         while(running){
             System.out.println("=====================================");
-            System.out.println("        Selamat datang di Sistem Point of Sale Apotek!        ");
+            System.out.println("Selamat datang di Sistem Point of Sale Apotek!        ");
             System.out.println("======================================");
 
             System.out.println("Pilih opsi:");
@@ -23,7 +29,7 @@ public class Main {
                 case 1:
                     System.out.println("TRANSAKSI!");
                     //Nanti lanjut masukin sistem sini
-                    setTransaction(scanner);
+                    setTransaction(scanner, medicines);
                     break;
                 case 2:
                     System.out.println("MANAJEMEN STOK OBAT!");
@@ -41,35 +47,44 @@ public class Main {
     }
 
 
-    private static void setTransaction(Scanner scanner) {
-        Medicine paracetamol = new Medicine(1, "Paracetamol", 100, 5000);
-        Medicine amoxicillin = new Medicine(2, "Amoxicillin", 50,  12000);
-        Medicine ibuprofen   = new Medicine(3, "Ibuprofen",   80,  8000);
+    private static void setTransaction(Scanner scanner, ArrayList<Medicine> medicines) {
+        // Medicine paracetamol = new Medicine(1, "Paracetamol", 100, 5000);
+        // Medicine amoxicillin = new Medicine(2, "Amoxicillin", 50,  12000);
+        // Medicine ibuprofen   = new Medicine(3, "Ibuprofen",   80,  8000);
 
         Cart cart = new Cart();
         boolean addingItems = true;
         while(addingItems){
-            System.out.print("Masukkan Obat yang ingin dibeli (1. Paracetamol, 2. Amoxicillin, 3. Ibuprofen, 0 untuk selesai): ");
+            System.out.println("Masukkan ID obat:");
+            for(Medicine medicine : medicines){
+                System.out.println(medicine.getIdOfMedicine() + ". " + medicine.getNameOfMedicine() + " (Stock: " + medicine.getStockOfMedicine() + ", Harga: " + medicine.getPriceOfIndividualMedicine() + ")");
+            }
+            System.out.println("0. Selesai menambahkan obat");
+            System.out.print("Masukkan pilihan: ");
             int medicineId = scanner.nextInt();
             if(medicineId == 0){
                 addingItems = false;
                 continue;
             }
-            System.out.print("Masukkan jumlah yang ingin dibeli: ");
-            int quantity = scanner.nextInt();
-            switch (medicineId){
-                case 1:
-                    cart.addItemToCart(new IndividualItemInCart(paracetamol, quantity));
+            Medicine selectedMedicine = null;
+            for(Medicine medicine : medicines){
+                if(medicine.getIdOfMedicine() == medicineId){
+                    selectedMedicine = medicine;
                     break;
-                case 2:
-                    cart.addItemToCart(new IndividualItemInCart(amoxicillin, quantity));
-                    break;
-                case 3:
-                    cart.addItemToCart(new IndividualItemInCart(ibuprofen, quantity));
-                    break;
-                default:
-                    System.out.println("ID Obat tidak valid. Silakan coba lagi.");
+                }
             }
+            if(selectedMedicine == null){
+                System.out.println("ID obat tidak valid. Silakan coba lagi.");
+                continue;
+            }
+            System.out.print("Masukkan jumlah obat: ");
+            int quantity = scanner.nextInt();
+            if(!selectedMedicine.isMedicineAvailable(quantity)){
+                System.out.println("Stok obat tidak mencukupi. Silakan coba lagi.");
+                continue;
+            }
+            cart.addItemToCart(new IndividualItemInCart(selectedMedicine, quantity));
+            System.out.println("Obat berhasil ditambahkan ke keranjang.");
         }
         cart.displayCart();
         int amountPaid = 0;
@@ -94,7 +109,10 @@ public class Main {
                 transaction.getPaidAmount(),
                 transaction.getChange()
         );
+        System.out.println("\n\n");
         receipt.printReceipt();
+        System.out.println("\n\n");
     }
+    
 
 }

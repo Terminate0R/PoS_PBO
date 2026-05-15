@@ -1,0 +1,26 @@
+package service;
+import model.medicine;
+import java.util.ArrayList;
+
+public class InventoryManager {
+    private ArrayList<Medicine> medicines;
+    public InventoryManager(ArrayList<Medicine> medicines){
+        this.medicines = medicines;
+    }
+
+    public void displayMedicines(){
+        System.out.println("=========================== DAFTAR OBAT =========================");
+        for(Medicine medicine : medicines){
+            System.out.println(medicine.getIdofMedicine() + ". " + medicine.getNameOfMedicine() + " (Stock: " + medicine.getStockOfMedicine() + ", Harga: " + medicine.getPriceOfIndividualMedicine() + ")");
+            System.out.println("=================================================================");
+        }
+    }
+
+    public void addMedicine(Medicine medicine){
+        for(Medicine )
+        medicines.add(new Medicine(medicine));
+    }
+
+
+
+}
