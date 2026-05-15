@@ -1,4 +1,5 @@
 import model.*;
+import service.InventoryManager;
 import java.util.Scanner;
 import java.util.ArrayList;
 public class Main {
@@ -12,6 +13,8 @@ public class Main {
         medicines.add(new Medicine(2, "Amoxicillin", 50, 12000));
         medicines.add(new Medicine(3, "Ibuprofen", 80, 8000));
 
+
+        InventoryManager inventoryManager = new InventoryManager(medicines);
 
         while(running){
             System.out.println("=====================================");
@@ -27,13 +30,10 @@ public class Main {
 
             switch(choice){
                 case 1:
-                    System.out.println("TRANSAKSI!");
-                    //Nanti lanjut masukin sistem sini
                     setTransaction(scanner, medicines);
                     break;
                 case 2:
-                    System.out.println("MANAJEMEN STOK OBAT!");
-                    //Nanti lanjut masukin sistem sini
+                    setInventoryManagement(scanner, inventoryManager);
                     break;
                 case 3:
                     running = false;
@@ -46,6 +46,82 @@ public class Main {
         scanner.close();
     }
 
+    private static void setInventoryManagement(Scanner scanner, InventoryManager inventoryManager) {
+        boolean managing = true;
+        while (managing){
+            System.out.println("\n================================");
+            System.out.println("MANAJEMEN STOK OBAT");
+            System.out.println("================================");
+            System.out.println("Pilih opsi:");
+            System.out.println("1. Tampilkan daftar obat");
+            System.out.println("2. Tambah obat baru");
+            System.out.println("3. Update obat");
+            System.out.println("4. Hapus obat");
+            System.out.println("0. Selesai");
+            System.out.print("Masukkan pilihan Anda:");
+            int choice = scanner.nextInt();
+            switch (choice){
+                case 1:
+                    inventoryManager.displayMedicines();
+                    break;
+                case 2:
+                    System.out.print("Masukkan ID obat: ");
+                    int id = scanner.nextInt();
+                    scanner.nextLine(); 
+                    System.out.print("Masukkan nama obat: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Masukkan stok obat: ");
+                    int stock = scanner.nextInt();
+                    System.out.print("Masukkan harga obat: ");
+                    int price = scanner.nextInt();
+                    inventoryManager.addMedicine(id, name, stock, price);
+                    break;
+                case 3:
+                    System.out.print("Masukkan ID obat yang ingin diupdate: ");
+                    int updateId = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Masukkan yang ingin diupdate (name/stock/price): ");
+                    System.out.println("1. Nama");
+                    System.out.println("2. Stok");
+                    System.out.println("3. Harga");
+                    System.out.print("Masukkan pilihan: ");
+                    int updateSet = scanner.nextInt();
+                    scanner.nextLine();
+
+                    switch(updateSet){
+                        case 1:
+                            System.out.print("Masukkan nama baru: ");
+                            String newName = scanner.nextLine();
+                            inventoryManager.updateName(updateId, newName);
+                            break;
+                        case 2:
+                            System.out.print("Masukkan stok baru: ");
+                            int newStock = scanner.nextInt();
+                            inventoryManager.updateStock(updateId, newStock);
+                            break;
+                        case 3:
+                            System.out.print("Masukkan harga baru: ");
+                            int newPrice = scanner.nextInt();
+                            scanner.nextLine();
+                            inventoryManager.updatePrice(updateId, newPrice);
+                            break;
+                        default:
+                            System.out.println("Pilihan tidak valid. Silakan coba lagi.");
+                        }
+                    break;
+                case 4:
+                    System.out.print("Masukkan ID obat yang ingin dihapus: ");
+                    int removeId = scanner.nextInt();
+                    inventoryManager.removeMedicine(removeId);
+                    break;
+                case 0:
+                    managing = false;
+                    break;
+                default:
+                    System.out.println("Pilihan tidak valid. Silakan coba lagi.");           
+            }
+        }
+    }
 
     private static void setTransaction(Scanner scanner, ArrayList<Medicine> medicines) {
         // Medicine paracetamol = new Medicine(1, "Paracetamol", 100, 5000);
@@ -85,6 +161,10 @@ public class Main {
             }
             cart.addItemToCart(new IndividualItemInCart(selectedMedicine, quantity));
             System.out.println("Obat berhasil ditambahkan ke keranjang.");
+        }
+        if(cart.getItems().isEmpty()){
+            System.out.println("Keranjang kosong! Transaksi dibatalkan.");
+            return;
         }
         cart.displayCart();
         int amountPaid = 0;
