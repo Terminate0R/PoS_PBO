@@ -1,3 +1,4 @@
+package service;
 import model.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,6 +11,19 @@ public class DataBaseHelper{
         PASSWORD = Password;
     }
 
+    public static boolean login(String username, String password){
+        String query = "SELECT * FROM users WHERE username = ? AND password = ?";
+        try (Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query)){
+                stmt.setString(1, username);
+                stmt.setString(2, password);
+                ResultSet rs = stmt.executeQuery();
+                return rs.next();
+            } catch (SQLException e){
+                System.out.println("Error during login: " + e.getMessage());
+                return false;
+            }
+    }
 
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
@@ -95,6 +109,30 @@ public class DataBaseHelper{
                 }
             } catch (SQLException e){
                 System.out.println("Error updating medicine stock: " + e.getMessage());
+            }
+    }
+
+    public static void updateMedicineName(int id, String newName){
+        String query = "UPDATE medicine SET name = ? WHERE id = ?";
+        try (Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query)){
+                stmt.setString(1, newName);
+                stmt.setInt(2, id);
+                stmt.executeUpdate();
+            } catch (SQLException e){
+                System.out.println("Error updating medicine name: " + e.getMessage());
+            }
+    }
+
+    public static void updateMedicinePrice(int id, int newPrice){
+        String query = "UPDATE medicine SET price = ? WHERE id = ?";
+        try (Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query)){
+                stmt.setInt(1, newPrice);
+                stmt.setInt(2, id);
+                stmt.executeUpdate();
+            } catch (SQLException e){
+                System.out.println("Error updating medicine price: " + e.getMessage());
             }
     }
     

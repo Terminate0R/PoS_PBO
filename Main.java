@@ -12,10 +12,25 @@ public class Main {
         try {
             DataBaseHelper.getConnection();
             System.out.println("Koneksi database berhasil!");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage()); // ← show actual error
             return;
         }
+
+    boolean loggedIn = false;
+    while(!loggedIn){
+        System.out.print("Username: ");
+        String username = scanner.nextLine();
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+        
+        if(DataBaseHelper.login(username, password)){
+            System.out.println("Login berhasil!");
+            loggedIn = true;
+        } else {
+            System.out.println("Username atau password salah. Silakan coba lagi.");
+        }
+    }
         
         boolean running = true;
 

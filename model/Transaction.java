@@ -58,8 +58,6 @@ public class Transaction {
     }
 
     public void setAmountPaid(int paidAmount){
-        if(paidAmount < totalPrice) throw new IllegalArgumentException("Paid amount is less than total price.");
-        if(this.paidAmount != 0) throw new IllegalStateException("Amount already set.");
         if(paidAmount < 0) throw new IllegalArgumentException("Paid amount cannot be negative.");
         this.paidAmount = paidAmount;
     }
@@ -79,6 +77,6 @@ public class Transaction {
     }
     public int getChange() {
         if(!isProcessed) throw new IllegalStateException("Transaction not processed yet.");
-        return getChange(paidAmount);
+        return paidAmount - totalPrice;
     }
 }

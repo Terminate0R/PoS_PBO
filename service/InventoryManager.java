@@ -3,6 +3,7 @@ import model.Medicine;
 import java.util.ArrayList;
 
 public class InventoryManager {
+    
     private ArrayList<Medicine> medicines;
     public InventoryManager(ArrayList<Medicine> medicines){
         this.medicines = medicines;

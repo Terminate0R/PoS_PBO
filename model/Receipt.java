@@ -35,7 +35,12 @@ public class Receipt{
         System.out.println("Change: " + change);
     }
 
-
+    public String getTransactionId() { return transactionId; }
+    public List<IndividualItemInCart> getListOfItems() { return listOfItems; }
+    public int getTotalPrice() { return totalPrice; }
+    public String getPaymentMethod() { return paymentMethod; }
+    public int getPaidAmount() { return paidAmount; }
+    public int getChange() { return change; }
 
 
 
