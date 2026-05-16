@@ -38,20 +38,20 @@ public class ApotekApp extends Application {
 
         Label cross = new Label("+");
         cross.setStyle("-fx-text-fill: " + StyleUtil.ACCENT_TEAL + ";" +
-                       "-fx-font-size: 64px; -fx-font-weight: bold;");
+                       "-fx-font-size: 32px; -fx-font-weight: bold;");
 
         Label appName = new Label("ApotekPOS");
-        appName.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 32px; -fx-font-weight: bold;");
+        appName.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 26px; -fx-font-weight: bold;");
 
         Label tagline = new Label("Sistem Kasir Apotek");
-        tagline.setStyle("-fx-text-fill: " + StyleUtil.TEXT_SIDEBAR + "; -fx-font-size: 14px;");
+        tagline.setStyle("-fx-text-fill: " + StyleUtil.TEXT_SIDEBAR + "; -fx-font-size: 16px;");
 
         Separator sep = new Separator();
         sep.setStyle("-fx-background-color: rgba(255,255,255,0.15);");
         sep.setMaxWidth(120);
 
         Label version = new Label("v1.0.0");
-        version.setStyle("-fx-text-fill: rgba(184,197,208,0.5); -fx-font-size: 11px;");
+        version.setStyle("-fx-text-fill: rgba(184,197,208,0.5); -fx-font-size: 15px;");
 
         brand.getChildren().addAll(cross, appName, tagline, sep, version);
         root.setLeft(brand);
@@ -98,11 +98,11 @@ public class ApotekApp extends Application {
         passGroup.getChildren().add(passField);
 
         Label errorLbl = new Label("");
-        errorLbl.setStyle("-fx-text-fill: " + StyleUtil.ACCENT_RED + "; -fx-font-size: 12px;");
+        errorLbl.setStyle("-fx-text-fill: " + StyleUtil.ACCENT_RED + "; -fx-font-size: 15px;");
         errorLbl.setVisible(false);
 
         Button loginBtn = new Button("Masuk");
-        loginBtn.setStyle(StyleUtil.btnPrimary() + "-fx-font-size: 14px; -fx-padding: 12 0;");
+        loginBtn.setStyle(StyleUtil.btnPrimary() + "-fx-font-size: 16px; -fx-padding: 12 0;");
         loginBtn.setMaxWidth(Double.MAX_VALUE);
 
         loginBtn.setOnAction(e -> {
@@ -150,14 +150,14 @@ public class ApotekApp extends Application {
         Scene scene = new Scene(root, 860, 560);
         stage.setTitle("ApotekPOS — Login");
         stage.setScene(scene);
-        stage.setResizable(false);
+        stage.setResizable(true);
         stage.show();
     }
 
     private VBox fieldGroup(String labelText) {
         VBox group = new VBox(6);
         Label lbl = new Label(labelText);
-        lbl.setStyle("-fx-text-fill: " + StyleUtil.TEXT_DARK + "; -fx-font-size: 12px; -fx-font-weight: bold;");
+        lbl.setStyle("-fx-text-fill: " + StyleUtil.TEXT_DARK + "; -fx-font-size: 15px; -fx-font-weight: bold;");
         group.getChildren().add(lbl);
         return group;
     }

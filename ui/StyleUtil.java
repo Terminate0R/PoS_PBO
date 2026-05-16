@@ -51,14 +51,14 @@ public class StyleUtil {
                "-fx-background-radius: 6;" +
                "-fx-border-width: 1;" +
                "-fx-padding: 9 12;" +
-               "-fx-font-size: 13px;";
+               "-fx-font-size: 15px;";
     }
 
     public static String btnPrimary() {
         return "-fx-background-color: " + ACCENT_TEAL + ";" +
                "-fx-text-fill: #FFFFFF;" +
                "-fx-font-weight: bold;" +
-               "-fx-font-size: 13px;" +
+               "-fx-font-size: 15px;" +
                "-fx-padding: 10 22;" +
                "-fx-background-radius: 7;" +
                "-fx-cursor: hand;";
@@ -67,7 +67,7 @@ public class StyleUtil {
     public static String btnSecondary() {
         return "-fx-background-color: " + BG_SURFACE + ";" +
                "-fx-text-fill: " + TEXT_DARK + ";" +
-               "-fx-font-size: 13px;" +
+               "-fx-font-size: 15px;" +
                "-fx-padding: 9 20;" +
                "-fx-background-radius: 7;" +
                "-fx-border-color: " + BORDER_DARK + ";" +
@@ -80,7 +80,7 @@ public class StyleUtil {
         return "-fx-background-color: " + ACCENT_RED + ";" +
                "-fx-text-fill: #FFFFFF;" +
                "-fx-font-weight: bold;" +
-               "-fx-font-size: 12px;" +
+               "-fx-font-size: 15px;" +
                "-fx-padding: 7 16;" +
                "-fx-background-radius: 7;" +
                "-fx-cursor: hand;";
@@ -90,7 +90,7 @@ public class StyleUtil {
         return "-fx-background-color: " + ACCENT_AMBER + ";" +
                "-fx-text-fill: #FFFFFF;" +
                "-fx-font-weight: bold;" +
-               "-fx-font-size: 12px;" +
+               "-fx-font-size: 15px;" +
                "-fx-padding: 7 16;" +
                "-fx-background-radius: 7;" +
                "-fx-cursor: hand;";
@@ -99,7 +99,7 @@ public class StyleUtil {
     public static String badge(String bgColor, String textColor) {
         return "-fx-background-color: " + bgColor + ";" +
                "-fx-text-fill: " + textColor + ";" +
-               "-fx-font-size: 11px;" +
+               "-fx-font-size: 15px;" +
                "-fx-font-weight: bold;" +
                "-fx-padding: 3 8;" +
                "-fx-background-radius: 4;";
@@ -109,7 +109,7 @@ public class StyleUtil {
     public static String navBtnActive() {
         return "-fx-background-color: rgba(255,255,255,0.12);" +
                "-fx-text-fill: " + TEXT_SIDEBAR_ACTIVE + ";" +
-               "-fx-font-size: 13px;" +
+               "-fx-font-size: 15px;" +
                "-fx-padding: 10 16;" +
                "-fx-background-radius: 8;" +
                "-fx-alignment: center-left;" +
@@ -122,7 +122,7 @@ public class StyleUtil {
     public static String navBtnIdle() {
         return "-fx-background-color: transparent;" +
                "-fx-text-fill: " + TEXT_SIDEBAR + ";" +
-               "-fx-font-size: 13px;" +
+               "-fx-font-size: 15px;" +
                "-fx-padding: 10 16;" +
                "-fx-background-radius: 8;" +
                "-fx-alignment: center-left;" +
@@ -132,7 +132,7 @@ public class StyleUtil {
     public static String navBtnHover() {
         return "-fx-background-color: rgba(255,255,255,0.07);" +
                "-fx-text-fill: #FFFFFF;" +
-               "-fx-font-size: 13px;" +
+               "-fx-font-size: 15px;" +
                "-fx-padding: 10 16;" +
                "-fx-background-radius: 8;" +
                "-fx-alignment: center-left;" +

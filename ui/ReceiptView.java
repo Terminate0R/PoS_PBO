@@ -48,7 +48,7 @@ public class ReceiptView {
        
         Label check = new Label("✓");
         check.setStyle("-fx-text-fill: " + StyleUtil.ACCENT_TEAL + ";" +
-                       "-fx-font-size: 36px; -fx-font-weight: bold;" +
+                       "-fx-font-size: 26px; -fx-font-weight: bold;" +
                        "-fx-background-color: " + StyleUtil.ACCENT_TEAL_LIGHT + ";" +
                        "-fx-background-radius: 50;" +
                        "-fx-padding: 12 20;");
@@ -73,14 +73,14 @@ public class ReceiptView {
         String txId = receipt.getTransactionId();
         if (txId.length() > 20) txId = txId.substring(0, 20) + "…";
         Label txValue = new Label(txId);
-        txValue.setStyle("-fx-text-fill: " + StyleUtil.TEXT_MUTED + "; -fx-font-size: 11px; -fx-font-family: monospace;");
+        txValue.setStyle("-fx-text-fill: " + StyleUtil.TEXT_MUTED + "; -fx-font-size: 15px; -fx-font-family: monospace;");
 
         Separator sep1 = sep();
 
   
         Label itemHeader = new Label("ITEM PEMBELIAN");
         itemHeader.setStyle("-fx-text-fill: " + StyleUtil.TEXT_MUTED + ";" +
-                            "-fx-font-size: 10px; -fx-font-weight: bold;");
+                            "-fx-font-size: 15px; -fx-font-weight: bold;");
 
         VBox items = new VBox(10);
         for (IndividualItemInCart item : receipt.getListOfItems()) {
@@ -89,7 +89,7 @@ public class ReceiptView {
 
             VBox left = new VBox(2);
             Label nm = new Label(item.getMedicine().getNameOfMedicine());
-            nm.setStyle("-fx-text-fill: " + StyleUtil.TEXT_DARK + "; -fx-font-size: 13px;");
+            nm.setStyle("-fx-text-fill: " + StyleUtil.TEXT_DARK + "; -fx-font-size: 15px;");
             Label qty = new Label(item.getQuantityOfMedicineBought() + " unit  ×  " +
                                   StyleUtil.formatRupiah(item.getMedicine().getPriceOfIndividualMedicine()));
             qty.setStyle(StyleUtil.label(StyleUtil.FONT_SIZE_XS, StyleUtil.TEXT_MUTED));
@@ -99,7 +99,7 @@ public class ReceiptView {
 
             Label sub = new Label(StyleUtil.formatRupiah(item.getTotalPriceOfCurrentMedicine()));
             sub.setStyle("-fx-text-fill: " + StyleUtil.TEXT_DARK + ";" +
-                         "-fx-font-size: 13px; -fx-font-weight: bold;");
+                         "-fx-font-size: 15px; -fx-font-weight: bold;");
             row.getChildren().addAll(left, spacer, sub);
             items.getChildren().add(row);
         }

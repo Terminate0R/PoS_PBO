@@ -26,9 +26,14 @@ public class InventoryView {
         root.setLeft(Sidebar.build(stage, "inventory"));
         root.setCenter(buildCenter());
 
-        stage.setScene(new Scene(root, 1100, 700));
         stage.setTitle("ApotekPOS — Inventaris");
-        stage.setMaximized(true);
+        Scene existing = stage.getScene();
+        if (existing != null) {
+            existing.setRoot(root);
+        } else {
+            stage.setScene(new Scene(root, 1200, 720));
+            stage.setMaximized(true);
+        }
     }
 
     private VBox buildCenter() {
@@ -42,7 +47,7 @@ public class InventoryView {
         VBox titleBox = new VBox(4);
         Label title = new Label("Manajemen Inventaris");
         title.setStyle("-fx-text-fill: " + StyleUtil.TEXT_DARK + ";" +
-                       "-fx-font-size: 24px; -fx-font-weight: bold;");
+                       "-fx-font-size: 32px; -fx-font-weight: bold;");
         Label sub = new Label("Kelola stok, harga, dan data obat");
         sub.setStyle(StyleUtil.label(StyleUtil.FONT_SIZE_SM, StyleUtil.TEXT_MUTED));
         titleBox.getChildren().addAll(title, sub);
@@ -60,7 +65,7 @@ public class InventoryView {
         searchRow.setAlignment(Pos.CENTER_LEFT);
         TextField search = new TextField();
         search.setPromptText("Cari nama obat...");
-        search.setStyle(StyleUtil.inputField() + "-fx-font-size: 13px; -fx-padding: 10 14;");
+        search.setStyle(StyleUtil.inputField() + "-fx-font-size: 20px; -fx-padding: 10 14;");
         search.setPrefWidth(300);
 
         Label countLbl = new Label(ApotekApp.medicines.size() + " obat terdaftar");
@@ -167,7 +172,7 @@ public class InventoryView {
         TextField priceFld = styledField("Harga Satuan (Rp)");
 
         Label errLbl = new Label("");
-        errLbl.setStyle("-fx-text-fill: " + StyleUtil.ACCENT_RED + "; -fx-font-size: 12px;");
+        errLbl.setStyle("-fx-text-fill: " + StyleUtil.ACCENT_RED + "; -fx-font-size: 32px;");
         errLbl.setVisible(false);
 
         HBox btnRow = new HBox(10);
@@ -224,7 +229,7 @@ public class InventoryView {
         idNote.setStyle(StyleUtil.label(StyleUtil.FONT_SIZE_XS, StyleUtil.TEXT_MUTED));
 
         Label errLbl = new Label("");
-        errLbl.setStyle("-fx-text-fill: " + StyleUtil.ACCENT_RED + "; -fx-font-size: 12px;");
+        errLbl.setStyle("-fx-text-fill: " + StyleUtil.ACCENT_RED + "; -fx-font-size: 32px;");
         errLbl.setVisible(false);
 
         HBox btnRow = new HBox(10);
@@ -299,14 +304,14 @@ public class InventoryView {
     private Label dialogTitle(String text) {
         Label l = new Label(text);
         l.setStyle("-fx-text-fill: " + StyleUtil.TEXT_DARK + ";" +
-                   "-fx-font-size: 17px; -fx-font-weight: bold;");
+                   "-fx-font-size: 20px; -fx-font-weight: bold;");
         return l;
     }
 
     private TextField styledField(String prompt) {
         TextField tf = new TextField();
         tf.setPromptText(prompt);
-        tf.setStyle(StyleUtil.inputField() + "-fx-padding: 10 14; -fx-font-size: 13px;");
+        tf.setStyle(StyleUtil.inputField() + "-fx-padding: 10 14; -fx-font-size: 20px;");
         return tf;
     }
 

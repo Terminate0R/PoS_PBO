@@ -20,7 +20,7 @@ public class Sidebar {
         Label cross = new Label("+  ApotekPOS");
         cross.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 18px; -fx-font-weight: bold;");
         Label sub = new Label("Sistem Kasir Apotek");
-        sub.setStyle("-fx-text-fill: " + StyleUtil.TEXT_SIDEBAR + "; -fx-font-size: 11px;");
+        sub.setStyle("-fx-text-fill: " + StyleUtil.TEXT_SIDEBAR + "; -fx-font-size: 15px;");
         logoBox.getChildren().addAll(cross, sub);
 
    
@@ -28,7 +28,7 @@ public class Sidebar {
         nav.setPadding(new Insets(16, 10, 16, 10));
 
         Label navLabel = new Label("MENU");
-        navLabel.setStyle("-fx-text-fill: rgba(184,197,208,0.45); -fx-font-size: 10px;" +
+        navLabel.setStyle("-fx-text-fill: rgba(184,197,208,0.45); -fx-font-size: 15px;" +
                           "-fx-font-weight: bold; -fx-padding: 4 10 8 10;");
 
         Button btnDash = navBtn("  Dashboard",    activeView.equals("dashboard"));
@@ -46,7 +46,7 @@ public class Sidebar {
         footer.setPadding(new Insets(16, 20, 20, 20));
         footer.setStyle("-fx-border-color: rgba(255,255,255,0.08); -fx-border-width: 1 0 0 0;");
         Label ver = new Label("v1.0.0  •  © 2025 ApotekPOS");
-        ver.setStyle("-fx-text-fill: rgba(184,197,208,0.35); -fx-font-size: 10px;");
+        ver.setStyle("-fx-text-fill: rgba(184,197,208,0.35); -fx-font-size: 15px;");
         footer.getChildren().add(ver);
 
         VBox.setVgrow(nav, Priority.ALWAYS);

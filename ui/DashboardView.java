@@ -21,11 +21,15 @@ public class DashboardView {
         root.setLeft(Sidebar.build(stage, "dashboard"));
         root.setCenter(buildContent());
 
-        Scene scene = new Scene(root, 1100, 700);
-        stage.setScene(scene);
         stage.setTitle("ApotekPOS — Dashboard");
-        stage.setMaximized(true);
-        stage.show();
+        Scene existing = stage.getScene();
+        if (existing != null) {
+            existing.setRoot(root);
+        } else {
+            stage.setScene(new Scene(root, 1200, 720));
+            stage.setMaximized(true);
+            stage.show();
+        }
     }
 
     private VBox buildContent() {
@@ -106,11 +110,11 @@ public class DashboardView {
 
         Label valueLbl = new Label(value);
         valueLbl.setStyle("-fx-text-fill: " + accentColor + ";" +
-                          "-fx-font-size: 28px; -fx-font-weight: bold;");
+                          "-fx-font-size: 32px; -fx-font-weight: bold;");
 
         Label nameLbl = new Label(label);
         nameLbl.setStyle("-fx-text-fill: " + StyleUtil.TEXT_DARK + ";" +
-                         "-fx-font-size: 13px; -fx-font-weight: bold;");
+                         "-fx-font-size: 20px; -fx-font-weight: bold;");
 
         Label subLbl = new Label(sub);
         subLbl.setStyle(StyleUtil.label(StyleUtil.FONT_SIZE_XS, StyleUtil.TEXT_MUTED));
@@ -130,12 +134,12 @@ public class DashboardView {
 
         Label actTitle = new Label("Akses Cepat");
         actTitle.setStyle("-fx-text-fill: " + StyleUtil.TEXT_DARK + ";" +
-                          "-fx-font-size: 15px; -fx-font-weight: bold;");
+                          "-fx-font-size: 20px; -fx-font-weight: bold;");
 
         Button btnTx  = new Button("Mulai Transaksi Baru");
         Button btnInv = new Button("Kelola Inventaris");
-        btnTx.setStyle(StyleUtil.btnPrimary() + "-fx-font-size: 13px; -fx-padding: 11 18;");
-        btnInv.setStyle(StyleUtil.btnSecondary() + "-fx-font-size: 13px; -fx-padding: 11 18;");
+        btnTx.setStyle(StyleUtil.btnPrimary() + "-fx-font-size: 20px; -fx-padding: 11 18;");
+        btnInv.setStyle(StyleUtil.btnSecondary() + "-fx-font-size: 20px; -fx-padding: 11 18;");
         btnTx.setMaxWidth(Double.MAX_VALUE);
         btnInv.setMaxWidth(Double.MAX_VALUE);
         btnTx.setOnAction(e  -> new TransactionView(stage).show());
@@ -151,7 +155,7 @@ public class DashboardView {
                              "-fx-border-color: " + StyleUtil.ACCENT_AMBER + ";" +
                              "-fx-border-radius: 7; -fx-border-width: 1;");
             Label warnTitle = new Label("Peringatan Stok");
-            warnTitle.setStyle("-fx-text-fill: " + StyleUtil.ACCENT_AMBER + "; -fx-font-size: 12px; -fx-font-weight: bold;");
+            warnTitle.setStyle("-fx-text-fill: " + StyleUtil.ACCENT_AMBER + "; -fx-font-size: 32px; -fx-font-weight: bold;");
             Label warnBody  = new Label(lowCount + " obat memiliki stok < 20 unit");
             warnBody.setStyle(StyleUtil.label(StyleUtil.FONT_SIZE_XS, StyleUtil.TEXT_MUTED));
             warnBox.getChildren().addAll(warnTitle, warnBody);
@@ -170,7 +174,7 @@ public class DashboardView {
         tableHeader.setAlignment(Pos.CENTER_LEFT);
         Label tableTitle = new Label("Daftar Obat");
         tableTitle.setStyle("-fx-text-fill: " + StyleUtil.TEXT_DARK + ";" +
-                            "-fx-font-size: 15px; -fx-font-weight: bold;");
+                            "-fx-font-size: 20px; -fx-font-weight: bold;");
         Region sp = new Region(); HBox.setHgrow(sp, Priority.ALWAYS);
         Label totalLbl = new Label(ApotekApp.medicines.size() + " item");
         totalLbl.setStyle(StyleUtil.label(StyleUtil.FONT_SIZE_SM, StyleUtil.TEXT_MUTED));
@@ -190,7 +194,7 @@ public class DashboardView {
             );
     
             String stockClr = m.getStockOfMedicine() < 20 ? StyleUtil.ACCENT_AMBER : StyleUtil.ACCENT_TEAL;
-            ((Label) tr.getChildren().get(2)).setStyle("-fx-text-fill: " + stockClr + "; -fx-font-size: 13px; -fx-font-weight: bold;");
+            ((Label) tr.getChildren().get(2)).setStyle("-fx-text-fill: " + stockClr + "; -fx-font-size: 20px; -fx-font-weight: bold;");
             tbody.getChildren().add(tr);
         }
 
@@ -210,8 +214,8 @@ public class DashboardView {
         HBox row = new HBox();
         row.setPadding(new Insets(10, 6, 10, 6));
         String style = header
-            ? "-fx-text-fill: " + StyleUtil.TEXT_MUTED + "; -fx-font-size: 11px; -fx-font-weight: bold;"
-            : "-fx-text-fill: " + StyleUtil.TEXT_DARK + "; -fx-font-size: 13px;";
+            ? "-fx-text-fill: " + StyleUtil.TEXT_MUTED + "; -fx-font-size: 32px; -fx-font-weight: bold;"
+            : "-fx-text-fill: " + StyleUtil.TEXT_DARK + "; -fx-font-size: 20px;";
         if (!header) {
             row.setStyle("-fx-border-color: " + StyleUtil.BORDER + "; -fx-border-width: 0 0 1 0;");
         } else {
