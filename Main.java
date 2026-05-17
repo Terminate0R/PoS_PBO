@@ -2,6 +2,7 @@ import model.*;
 import service.InventoryManager;
 import java.util.Scanner;
 import java.sql.SQLException;
+import service.DataBaseHelper;
 import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
@@ -13,7 +14,7 @@ public class Main {
             DataBaseHelper.getConnection();
             System.out.println("Koneksi database berhasil!");
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage()); // ← show actual error
+            System.out.println("Error: " + e.getMessage()); 
             return;
         }
 
