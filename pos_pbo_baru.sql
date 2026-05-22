@@ -37,7 +37,7 @@ CREATE TABLE `medicine` (
 
 LOCK TABLES `medicine` WRITE;
 /*!40000 ALTER TABLE `medicine` DISABLE KEYS */;
-INSERT INTO `medicine` VALUES (1,'Paracetamol',100,5000),(2,'Amoxicillin',50,12000),(3,'Ibuprofen',80,8000);
+INSERT INTO `medicine` VALUES (1,'Paracetamol',93,5000),(2,'Amoxicillin',47,12000),(3,'Ibuprofen',999,8000),(4,'tes',1,1);
 /*!40000 ALTER TABLE `medicine` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,17 +57,20 @@ CREATE TABLE `transaction` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`transaction_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET client_set_client = @saved_cs_client */;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `transaction`
+--
 
 LOCK TABLES `transaction` WRITE;
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
+INSERT INTO `transaction` VALUES ('41eacc69-e355-407e-aa39-4fd1dae1604a','Cash',5000,10000,5000,'2026-05-22 06:42:22'),('91ac9dc2-7f60-424c-9ab1-29ad672d4d28','Cash',1,1,0,'2026-05-22 06:44:27');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
 -- Table structure for table `transaction_items`
--- medicine_id is SET NULL on delete to preserve transaction history
--- medicine_name_snapshot captures the name at time of sale
 --
 
 DROP TABLE IF EXISTS `transaction_items`;
@@ -82,15 +85,46 @@ CREATE TABLE `transaction_items` (
   `subtotal` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `transaction_id` (`transaction_id`),
-  KEY `medicine_id` (`medicine_id`),
+  KEY `transaction_items_ibfk_2` (`medicine_id`),
   CONSTRAINT `transaction_items_ibfk_1` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`),
   CONSTRAINT `transaction_items_ibfk_2` FOREIGN KEY (`medicine_id`) REFERENCES `medicine` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET client_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `transaction_items`
+--
 
 LOCK TABLES `transaction_items` WRITE;
 /*!40000 ALTER TABLE `transaction_items` DISABLE KEYS */;
+INSERT INTO `transaction_items` VALUES (14,'41eacc69-e355-407e-aa39-4fd1dae1604a',1,'Paracetamol',1,5000),(15,'91ac9dc2-7f60-424c-9ab1-29ad672d4d28',NULL,'tes',1,1);
 /*!40000 ALTER TABLE `transaction_items` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) DEFAULT NULL,
+  `password` varchar(50) DEFAULT NULL,
+  `role` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'admin','admin123','admin');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -101,3 +135,5 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2026-05-22 13:59:20
