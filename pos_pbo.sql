@@ -57,11 +57,7 @@ CREATE TABLE `transaction` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`transaction_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `transaction`
---
+/*!40101 SET client_set_client = @saved_cs_client */;
 
 LOCK TABLES `transaction` WRITE;
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
@@ -70,6 +66,8 @@ UNLOCK TABLES;
 
 --
 -- Table structure for table `transaction_items`
+-- medicine_id is SET NULL on delete to preserve transaction history
+-- medicine_name_snapshot captures the name at time of sale
 --
 
 DROP TABLE IF EXISTS `transaction_items`;
@@ -79,19 +77,16 @@ CREATE TABLE `transaction_items` (
   `id` int NOT NULL AUTO_INCREMENT,
   `transaction_id` varchar(36) DEFAULT NULL,
   `medicine_id` int DEFAULT NULL,
+  `medicine_name_snapshot` varchar(100) DEFAULT NULL,
   `quantity` int DEFAULT NULL,
   `subtotal` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `transaction_id` (`transaction_id`),
   KEY `medicine_id` (`medicine_id`),
   CONSTRAINT `transaction_items_ibfk_1` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`),
-  CONSTRAINT `transaction_items_ibfk_2` FOREIGN KEY (`medicine_id`) REFERENCES `medicine` (`id`)
+  CONSTRAINT `transaction_items_ibfk_2` FOREIGN KEY (`medicine_id`) REFERENCES `medicine` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `transaction_items`
---
+/*!40101 SET client_set_client = @saved_cs_client */;
 
 LOCK TABLES `transaction_items` WRITE;
 /*!40000 ALTER TABLE `transaction_items` DISABLE KEYS */;
@@ -106,5 +101,3 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2026-05-15 14:18:49

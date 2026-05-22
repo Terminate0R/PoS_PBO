@@ -31,15 +31,17 @@ public class Sidebar {
         navLabel.setStyle("-fx-text-fill: rgba(184,197,208,0.45); -fx-font-size: 15px;" +
                           "-fx-font-weight: bold; -fx-padding: 4 10 8 10;");
 
-        Button btnDash = navBtn("  Dashboard",    activeView.equals("dashboard"));
-        Button btnTx   = navBtn("  Transaksi",    activeView.equals("transaction"));
-        Button btnInv  = navBtn("  Inventaris",   activeView.equals("inventory"));
+        Button btnDash    = navBtn("  Dashboard",          activeView.equals("dashboard"));
+        Button btnTx      = navBtn("  Transaksi",          activeView.equals("transaction"));
+        Button btnInv     = navBtn("  Inventaris",         activeView.equals("inventory"));
+        Button btnHistory = navBtn("  Riwayat Transaksi",  activeView.equals("history"));
 
-        btnDash.setOnAction(e -> { if (!activeView.equals("dashboard"))  new DashboardView(stage).show(); });
-        btnTx.setOnAction(e   -> { if (!activeView.equals("transaction")) new TransactionView(stage).show(); });
-        btnInv.setOnAction(e  -> { if (!activeView.equals("inventory"))  new InventoryView(stage).show(); });
+        btnDash.setOnAction(e    -> { if (!activeView.equals("dashboard"))   new DashboardView(stage).show(); });
+        btnTx.setOnAction(e      -> { if (!activeView.equals("transaction"))  new TransactionView(stage).show(); });
+        btnInv.setOnAction(e     -> { if (!activeView.equals("inventory"))   new InventoryView(stage).show(); });
+        btnHistory.setOnAction(e -> { if (!activeView.equals("history"))     new TransactionListView(stage).show(); });
 
-        nav.getChildren().addAll(navLabel, btnDash, btnTx, btnInv);
+        nav.getChildren().addAll(navLabel, btnDash, btnTx, btnInv, btnHistory);
 
        
         VBox footer = new VBox(4);

@@ -2,6 +2,8 @@ package service;
 import model.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class DataBaseHelper{
     private static final String URL = "jdbc:mysql://localhost:3306/pos_pbo";
@@ -49,10 +51,57 @@ public class DataBaseHelper{
             return medicines;
     }
 
+    // ── Transaction history ──────────────────────────────────────────────────
+    /**
+     * Loads all transactions with their items from the DB.
+     * Uses medicine_name_snapshot so deleted medicines still show their name.
+     */
+    public static ArrayList<TransactionRecord> loadTransactions(){
+        ArrayList<TransactionRecord> records = new ArrayList<>();
+
+        String txQuery = "SELECT transaction_id, payment_method, total_price, amount_paid, change_amount, created_at " +
+                         "FROM `transaction` ORDER BY created_at DESC";
+        String itemQuery = "SELECT medicine_id, medicine_name_snapshot, quantity, subtotal " +
+                           "FROM transaction_items WHERE transaction_id = ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement txStmt = conn.prepareStatement(txQuery);
+             ResultSet txRs = txStmt.executeQuery()){
+
+            while (txRs.next()){
+                String txId       = txRs.getString("transaction_id");
+                String method     = txRs.getString("payment_method");
+                int    total      = txRs.getInt("total_price");
+                int    paid       = txRs.getInt("amount_paid");
+                int    change     = txRs.getInt("change_amount");
+                String createdAt  = txRs.getString("created_at");
+
+                ArrayList<TransactionRecord.ItemSnapshot> items = new ArrayList<>();
+                try (PreparedStatement itemStmt = conn.prepareStatement(itemQuery)){
+                    itemStmt.setString(1, txId);
+                    ResultSet itemRs = itemStmt.executeQuery();
+                    while (itemRs.next()){
+                        // Use snapshot name; fall back gracefully if somehow null
+                        String name  = itemRs.getString("medicine_name_snapshot");
+                        if (name == null) name = "(Obat dihapus)";
+                        int qty      = itemRs.getInt("quantity");
+                        int subtotal = itemRs.getInt("subtotal");
+                        items.add(new TransactionRecord.ItemSnapshot(name, qty, subtotal));
+                    }
+                }
+                records.add(new TransactionRecord(txId, method, total, paid, change, createdAt, items));
+            }
+        } catch (SQLException e){
+            System.out.println("Error loading transactions: " + e.getMessage());
+        }
+        return records;
+    }
 
     public static void saveTransaction(Transaction transaction){
-        String insertTx = "INSERT INTO transaction (transaction_id, payment_method, total_price, amount_paid, change_amount) VALUES (?, ?, ?, ?, ?)";
-        String insertItem = "INSERT INTO transaction_items (transaction_id, medicine_id, quantity, subtotal) VALUES (?, ?, ?, ?)";
+        // Saves medicine_name_snapshot alongside medicine_id so history
+        // survives future medicine deletions.
+        String insertTx   = "INSERT INTO `transaction` (transaction_id, payment_method, total_price, amount_paid, change_amount) VALUES (?, ?, ?, ?, ?)";
+        String insertItem = "INSERT INTO transaction_items (transaction_id, medicine_id, medicine_name_snapshot, quantity, subtotal) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = getConnection()){
             conn.setAutoCommit(false);
             try (PreparedStatement txStmt = conn.prepareStatement(insertTx)){
@@ -67,8 +116,9 @@ public class DataBaseHelper{
                 for (IndividualItemInCart item : transaction.getItemSaves()){
                     itemStmt.setString(1, transaction.getTransactionId());
                     itemStmt.setInt(2, item.getMedicine().getIdOfMedicine());
-                    itemStmt.setInt(3, item.getQuantityOfMedicineBought());
-                    itemStmt.setInt(4, item.getTotalPriceOfCurrentMedicine());
+                    itemStmt.setString(3, item.getMedicine().getNameOfMedicine()); // snapshot
+                    itemStmt.setInt(4, item.getQuantityOfMedicineBought());
+                    itemStmt.setInt(5, item.getTotalPriceOfCurrentMedicine());
                     itemStmt.addBatch();
                 }
                 itemStmt.executeBatch();
@@ -78,8 +128,8 @@ public class DataBaseHelper{
         } catch (SQLException e){
             System.out.println("Error saving transaction: " + e.getMessage());
         }
-   
     }
+
     public static void saveMedicine(Medicine medicine){
         String query = "INSERT INTO medicine (id, name, stock, price) VALUES (?, ?, ?, ?)";
         try (Connection conn = getConnection();
@@ -136,11 +186,15 @@ public class DataBaseHelper{
             }
     }
     
+    /**
+     * Deletes a medicine. Because transaction_items uses ON DELETE SET NULL,
+     * existing transaction rows keep their medicine_name_snapshot intact.
+     */
     public static void deleteMedicine(int id){
-        String query = "DELETE FROM medicine where id = ?";
+        String query = "DELETE FROM medicine WHERE id = ?";
         try (Connection conn = getConnection();
             PreparedStatement stmt = conn.prepareStatement(query)){
-                stmt.setInt(1,id);
+                stmt.setInt(1, id);
                 stmt.executeUpdate();
             } catch (SQLException e){
                 System.out.println("Error deleting medicine: " + e.getMessage());

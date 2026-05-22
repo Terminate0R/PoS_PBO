@@ -48,7 +48,7 @@ public class Main {
             System.out.println("Pilih opsi:");
             System.out.println("1. Transaksi baru");
             System.out.println("2. Manajemen Stok Obat");
-            System.out.println("3. Keluar");
+            System.out.println("3. Keluar"); 
             System.out.print("Masukkan pilihan Anda: ");
             int choice = scanner.nextInt();
 
